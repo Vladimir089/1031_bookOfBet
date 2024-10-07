@@ -6,8 +6,41 @@
 //
 
 import UIKit
+import Combine
+import CombineCocoa
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, UIImagePickerControllerDelegate , UINavigationControllerDelegate {
+    
+    //profile
+    private lazy var imageViewProfile: UIImageView = {
+        let imageView = UIImageView(image: .defProfile)
+        imageView.layer.cornerRadius = 8
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    
+    private lazy var nameProfile: UILabel = {
+        let label = UILabel()
+        label.text = "Hi!"
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 20, weight: .bold)
+        return label
+    }()
+    
+    private var profileData: Profile?
+    private lazy var editProfileView = EditProfileView(image: UIImage(data: profileData?.image ?? Data() ) ?? .defProfile , name: profileData?.name ?? "")
+    
+    //Combine
+    private lazy var cancellable = [AnyCancellable]()
+    private lazy var loadDataClass = LoadDataFromFile()
+    
+    //Balance
+    private lazy var balanceLabel = UILabel()
+    private lazy var countWinLabel = UILabel()
+    
+    //collection
+    private var collection: UICollectionView?
+    private lazy var nilArrView = UIView()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -20,14 +53,333 @@ class HomeViewController: UIViewController {
             ]
         }
     }
-
+    
+    private func subscribe() {
+       globalPublisher
+            .sink { _ in
+                self.countWinLabel.text = self.checkWinCount()
+                self.balanceLabel.text = "$" + self.checkBalance()
+                self.checkArr()
+                self.collection?.reloadData()
+            }
+            .store(in: &cancellable)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(red: 12/255, green: 19/255, blue: 53/255, alpha: 1)
-        
+        setupUI()
+        checkProfile()
+        checkArr()
     }
     
+    private func checkProfile() {
+        profileData = loadDataClass.loadProfileFromFile() ?? nil
+        if let profile = profileData {
+            imageViewProfile.image = UIImage(data: profile.image)
+            nameProfile.text = "Hi, " + profile.name + "!"
+        }
+    }
 
     
+    private func setupUI() {
+        
+        let topView = UIView()
+        topView.backgroundColor = .white.withAlphaComponent(0.05)
+        topView.layer.cornerRadius = 20
+        view.addSubview(topView)
+        topView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(15)
+            make.height.equalTo(84)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+        }
+        
+        topView.addSubview(imageViewProfile)
+        imageViewProfile.snp.makeConstraints { make in
+            make.height.width.equalTo(52)
+            make.centerY.equalToSuperview()
+            make.left.equalToSuperview().inset(15)
+        }
+        
+        topView.addSubview(nameProfile)
+        nameProfile.snp.makeConstraints { make in
+            make.left.equalTo(imageViewProfile.snp.right).inset(-10)
+            make.top.equalTo(imageViewProfile.snp.top).inset(3)
+        }
+        
+        let niceLabel = UILabel()
+        niceLabel.text = "Have a nice day :)"
+        niceLabel.font = .systemFont(ofSize: 17, weight: .regular)
+        niceLabel.textColor = .white.withAlphaComponent(0.7)
+        topView.addSubview(niceLabel)
+        niceLabel.snp.makeConstraints { make in
+            make.left.equalTo(imageViewProfile.snp.right).inset(-10)
+            make.bottom.equalTo(imageViewProfile.snp.bottom).inset(3)
+        }
+        
+        let editProfileButton = UIButton(type: .system)
+        editProfileButton.setBackgroundImage(.editProfile, for: .normal)
+        topView.addSubview(editProfileButton)
+        editProfileButton.snp.makeConstraints { make in
+            make.height.width.equalTo(40)
+            make.right.equalToSuperview().inset(15)
+            make.centerY.equalToSuperview()
+        }
+        editProfileButton.tapPublisher
+            .sink { _ in
+                self.editProfile()
+            }
+            .store(in: &cancellable)
+        
+        view.addSubview(editProfileView)
+        editProfileView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(15)
+            make.height.equalTo(403)
+            make.center.equalToSuperview()
+        }
+        editProfileView.alpha = 0
+        let openChangeImageGesture = UITapGestureRecognizer(target: self, action: nil)
+        editProfileView.imageView.addGestureRecognizer(openChangeImageGesture)
+        openChangeImageGesture.tapPublisher
+            .sink { _ in
+                self.setImage()
+            }
+            .store(in: &cancellable)
+        
+        let hideKBGesture = UITapGestureRecognizer(target: self, action: nil)
+        view.addGestureRecognizer(hideKBGesture)
+        hideKBGesture.tapPublisher
+            .sink { _ in
+                self.view.endEditing(true)
+            }
+            .store(in: &cancellable)
+        
+        editProfileView.cancelButton.tapPublisher
+            .sink { _ in
+                self.view.endEditing(true)
+                UIView.animate(withDuration: 0.3) {
+                    self.editProfileView.alpha = 0
+                }
+            }
+            .store(in: &cancellable)
+            
+        editProfileView.saveButton.tapPublisher
+            .sink { _ in
+                self.saveProfile()
+            }
+            .store(in: &cancellable)
+        
+        let balanceView = UIView()
+        balanceView.backgroundColor = .white.withAlphaComponent(0.05)
+        balanceView.layer.cornerRadius = 20
+        view.addSubview(balanceView)
+        balanceView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(15)
+            make.top.equalTo(topView.snp.bottom).inset(-10)
+            make.height.equalTo(114)
+        }
+        
+        let balance = UILabel()
+        balance.text = "Balance"
+        balance.font = .systemFont(ofSize: 17, weight: .regular)
+        balance.textColor = UIColor(red: 175/255, green: 218/255, blue: 18/255, alpha: 1)
+        balanceView.addSubview(balance)
+        balance.snp.makeConstraints { make in
+            make.left.top.equalToSuperview().inset(15)
+        }
+        
+        balanceLabel.text = "$" + checkBalance()
+        balanceLabel.font = .systemFont(ofSize: 28, weight: .bold)
+        balanceLabel.textColor = .white
+        balanceLabel.textAlignment = .left
+        balanceView.addSubview(balanceLabel)
+        balanceLabel.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(15)
+            make.centerY.equalToSuperview()
+        }
+        
+        countWinLabel.text = checkWinCount()
+        countWinLabel.textColor = .white
+        countWinLabel.font = .systemFont(ofSize: 15, weight: .regular)
+        balanceView.addSubview(countWinLabel)
+        countWinLabel.snp.makeConstraints { make in
+            make.bottom.left.equalToSuperview().inset(15)
+        }
+        
+        let dopLabel = UILabel()
+        dopLabel.text = "winning bets"
+        dopLabel.textColor = .white.withAlphaComponent(0.7)
+        dopLabel.font = .systemFont(ofSize: 15, weight: .regular)
+        balanceView.addSubview(dopLabel)
+        dopLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(countWinLabel)
+            make.left.equalTo(countWinLabel.snp.right).inset(-3)
+        }
+        
+        let bidsLabel = UILabel()
+        bidsLabel.text = "Bids"
+        bidsLabel.textColor = .white
+        bidsLabel.font = .systemFont(ofSize: 28, weight: .bold)
+        view.addSubview(bidsLabel)
+        bidsLabel.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(15)
+            make.top.equalTo(balanceView.snp.bottom).inset(-15)
+        }
+        
+        collection = {
+            let layout = UICollectionViewFlowLayout()
+            let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+            layout.scrollDirection = .vertical
+            collection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "1")
+            collection.backgroundColor = .clear
+            collection.delegate = self
+            collection.dataSource = self
+            return collection
+        }()
+        view.addSubview(collection!)
+        collection?.snp.makeConstraints({ make in
+            make.left.right.equalToSuperview().inset(15)
+            make.bottom.equalToSuperview()
+            make.top.equalTo(bidsLabel.snp.bottom).inset(-10)
+        })
+        
+        nilArrView = {
+            let view = UIView()
+            view.backgroundColor = .white.withAlphaComponent(0.05)
+            view.layer.cornerRadius = 20
+            let imageView = UIImageView(image: .nilArr)
+            view.addSubview(imageView)
+            imageView.snp.makeConstraints { make in
+                make.height.width.equalTo(70)
+                make.left.equalToSuperview().inset(15)
+                make.centerY.equalToSuperview()
+            }
+            
+            let emptyLabel = UILabel()
+            emptyLabel.text = "Empty"
+            emptyLabel.textColor = .white
+            emptyLabel.font = .systemFont(ofSize: 28, weight: .bold)
+            view.addSubview(emptyLabel)
+            emptyLabel.snp.makeConstraints { make in
+                make.left.equalTo(imageView.snp.right).inset(-10)
+                make.top.equalTo(imageView).inset(10)
+            }
+            
+            let dopLabel = UILabel()
+            dopLabel.text = "Your records were not found"
+            dopLabel.font = .systemFont(ofSize: 13, weight: .regular)
+            dopLabel.textColor = .white.withAlphaComponent(0.7)
+            view.addSubview(dopLabel)
+            dopLabel.snp.makeConstraints { make in
+                make.left.equalTo(imageView.snp.right).inset(-10)
+                make.bottom.equalTo(imageView).inset(10)
+            }
+            return view
+        }()
+        view.addSubview(nilArrView)
+        nilArrView.alpha = 0
+        nilArrView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(15)
+            make.height.equalTo(102)
+            make.top.equalTo(bidsLabel.snp.bottom).inset(-10)
+        }
+    }
+    
+    private func checkBalance() -> String{
+        var balance = 0.00
+        for i in bidsArr {
+            if i.rezult == true {
+                balance += Double(i.stavka) ?? 0.00
+            }
+        }
+        return "\(balance)"
+    }
+    
+    private func checkWinCount() -> String {
+        var wins = 0
+        for i in bidsArr {
+            if i.rezult == true {
+                wins += 1
+            }
+        }
+        return "\(wins)"
+    }
+    
+    private func checkArr() {
+        if bidsArr.count > 0 {
+            nilArrView.alpha = 0
+            collection?.alpha = 100
+        } else {
+            nilArrView.alpha = 100
+            collection?.alpha = 0
+        }
+    }
+  
+    
+    private func editProfile() {
+        editProfileView.saveButton.alpha = 0.5
+        editProfileView.saveButton.isEnabled = false
+        self.editProfileView.alpha = 100
+        editProfileView.imageView.image = UIImage(data: profileData?.image ?? Data())
+        editProfileView.nameTextField.text = profileData?.name
+    }
+    
+    @objc func setImage() {
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.sourceType = .photoLibrary
+        imagePickerController.allowsEditing = false
+        self.present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        if let pickedImage = info[.originalImage] as? UIImage {
+            editProfileView.imageView.image = pickedImage
+            editProfileView.checkSaveButton()
+        }
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    private func saveProfile() {
+        let image: Data = editProfileView.imageView.image?.jpegData(compressionQuality: 0) ?? Data()
+        let name: String = editProfileView.nameTextField.text ?? ""
+        
+        let profile = Profile(image: image, name: name)
+        
+        do {
+            let data = try JSONEncoder().encode(profile) //тут мкассив конвертируем в дату
+            try loadDataClass.saveProfileToFile(data: data)
+            imageViewProfile.image = UIImage(data: image)
+            nameProfile.text = "Hi, " + name + "!"
+            self.profileData = profile
+            UIView.animate(withDuration: 0.3) {
+                self.editProfileView.alpha = 0
+            }
+        } catch {
+            print("Failed to encode or save athleteArr: \(error)")
+        }
+    }
+    
+}
+
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return bidsArr.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "1", for: indexPath)
+        cell.subviews.forEach { $0.removeFromSuperview() }
+        cell.layer.cornerRadius = 20
+        cell.backgroundColor = .orange
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.bounds.width, height: 109)
+    }
 }

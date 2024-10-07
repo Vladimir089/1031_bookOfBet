@@ -19,6 +19,10 @@
 		15650D932CB4061200EC88C0 /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 15650D922CB4061200EC88C0 /* CombineCocoa */; };
 		15650D962CB409F900EC88C0 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650D952CB409F900EC88C0 /* HomeViewController.swift */; };
 		15650D992CB42CAD00EC88C0 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650D982CB42CAD00EC88C0 /* TabBarViewController.swift */; };
+		15650D9C2CB477F400EC88C0 /* LoadStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650D9B2CB477F400EC88C0 /* LoadStorage.swift */; };
+		15650D9E2CB47B9F00EC88C0 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650D9D2CB47B9F00EC88C0 /* ProfileModel.swift */; };
+		15650DA02CB47CF900EC88C0 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650D9F2CB47CF900EC88C0 /* EditProfileView.swift */; };
+		15650DA32CB488D700EC88C0 /* GlobalModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650DA22CB488D700EC88C0 /* GlobalModels.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +38,10 @@
 		15650D8F2CB4037400EC88C0 /* OnbUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnbUserViewController.swift; sourceTree = "<group>"; };
 		15650D952CB409F900EC88C0 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		15650D982CB42CAD00EC88C0 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		15650D9B2CB477F400EC88C0 /* LoadStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadStorage.swift; sourceTree = "<group>"; };
+		15650D9D2CB47B9F00EC88C0 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
+		15650D9F2CB47CF900EC88C0 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
+		15650DA22CB488D700EC88C0 /* GlobalModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalModels.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +76,8 @@
 		15650D6E2CB3FD5200EC88C0 /* 1031_bookOfBet */ = {
 			isa = PBXGroup;
 			children = (
+				15650DA12CB488C800EC88C0 /* GlobalModel */,
+				15650D9A2CB477E600EC88C0 /* LoadFile */,
 				15650D972CB42C8700EC88C0 /* TabBar */,
 				15650D942CB409E900EC88C0 /* HomePage */,
 				15650D872CB3FF6800EC88C0 /* Ext */,
@@ -119,6 +129,8 @@
 			isa = PBXGroup;
 			children = (
 				15650D952CB409F900EC88C0 /* HomeViewController.swift */,
+				15650D9D2CB47B9F00EC88C0 /* ProfileModel.swift */,
+				15650D9F2CB47CF900EC88C0 /* EditProfileView.swift */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -129,6 +141,22 @@
 				15650D982CB42CAD00EC88C0 /* TabBarViewController.swift */,
 			);
 			path = TabBar;
+			sourceTree = "<group>";
+		};
+		15650D9A2CB477E600EC88C0 /* LoadFile */ = {
+			isa = PBXGroup;
+			children = (
+				15650D9B2CB477F400EC88C0 /* LoadStorage.swift */,
+			);
+			path = LoadFile;
+			sourceTree = "<group>";
+		};
+		15650DA12CB488C800EC88C0 /* GlobalModel */ = {
+			isa = PBXGroup;
+			children = (
+				15650DA22CB488D700EC88C0 /* GlobalModels.swift */,
+			);
+			path = GlobalModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -210,7 +238,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15650DA02CB47CF900EC88C0 /* EditProfileView.swift in Sources */,
+				15650D9E2CB47B9F00EC88C0 /* ProfileModel.swift in Sources */,
 				15650D862CB3FF0500EC88C0 /* LoadViewController.swift in Sources */,
+				15650DA32CB488D700EC88C0 /* GlobalModels.swift in Sources */,
+				15650D9C2CB477F400EC88C0 /* LoadStorage.swift in Sources */,
 				15650D902CB4037400EC88C0 /* OnbUserViewController.swift in Sources */,
 				15650D702CB3FD5200EC88C0 /* AppDelegate.swift in Sources */,
 				15650D722CB3FD5200EC88C0 /* SceneDelegate.swift in Sources */,

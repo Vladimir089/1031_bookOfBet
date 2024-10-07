@@ -1,27 +1,35 @@
 import UIKit
 import SnapKit
+import Combine
 
-var buttons: [UIButton] = []
+var globalPublisher = PassthroughSubject<Any, Never>()
+var bidsArr: [Bids] = []
+var eventsArr: [Event] = []
 
 class TabBarViewController: UITabBarController {
 
     let tabbarView = UIView()
     let tabbarItemBackgroundView = UIView()
     var centerConstraint: NSLayoutConstraint?
+    var buttons: [UIButton] = []
+    
     
     override func viewDidLoad() {
         UserDefaults.standard.set("w", forKey: "tab")
         super.viewDidLoad()
+        bidsArr = loadBidsArrFromFile() ?? []
+        eventsArr = loadEventsArrFromFile() ?? []
         generateControllers()
         setView()
         buttonTapped(sender: buttons[0])
     }
 
+
     private func setView() {
         view.addSubview(tabbarView)
         tabbarView.backgroundColor = .white.withAlphaComponent(0.05)
         tabbarView.translatesAutoresizingMaskIntoConstraints = false
-        tabbarView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60).isActive = true
+        tabbarView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30).isActive = true
         tabbarView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -60).isActive = true
         tabbarView.heightAnchor.constraint(equalToConstant: 72).isActive = true
         tabbarView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -79,20 +87,54 @@ class TabBarViewController: UITabBarController {
     }
     
     @objc func buttonTapped(sender: UIButton) {
-          selectedIndex = sender.tag
+        selectedIndex = sender.tag
+        
+        for button in buttons {
+            button.tintColor = .white.withAlphaComponent(0.2)
+            button.backgroundColor = .clear
+        }
+        
+        UIView.animate(withDuration: 0.2, delay: 0 , options: .beginFromCurrentState) {
             
-          for button in buttons {
-              button.tintColor = .white.withAlphaComponent(0.2)
-              button.backgroundColor = .clear
-          }
-          
-          UIView.animate(withDuration: 0.2, delay: 0 , options: .beginFromCurrentState) {
-             
-              buttons[sender.tag].tintColor = .white
-              buttons[sender.tag].backgroundColor = UIColor(red: 175/255, green: 218/255, blue: 18/255, alpha: 1)
-              self.tabbarView.layoutIfNeeded()
-           }
-       }
+            self.buttons[sender.tag].tintColor = .white
+            self.buttons[sender.tag].backgroundColor = UIColor(red: 175/255, green: 218/255, blue: 18/255, alpha: 1)
+            self.tabbarView.layoutIfNeeded()
+        }
+    }
+    
+    func loadBidsArrFromFile() -> [Bids]? {
+        let fileManager = FileManager.default
+        guard let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            print("Unable to get document directory")
+            return nil
+        }
+        let filePath = documentDirectory.appendingPathComponent("bids.plist")
+        do {
+            let data = try Data(contentsOf: filePath)
+            let athleteArr = try JSONDecoder().decode([Bids].self, from: data)
+            return athleteArr
+        } catch {
+            print("Failed to load or decode athleteArr: \(error)")
+            return nil
+        }
+    }
+    
+    func loadEventsArrFromFile() -> [Event]? {
+        let fileManager = FileManager.default
+        guard let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            print("Unable to get document directory")
+            return nil
+        }
+        let filePath = documentDirectory.appendingPathComponent("event.plist")
+        do {
+            let data = try Data(contentsOf: filePath)
+            let athleteArr = try JSONDecoder().decode([Event].self, from: data)
+            return athleteArr
+        } catch {
+            print("Failed to load or decode athleteArr: \(error)")
+            return nil
+        }
+    }
 }
 
 
