@@ -9,21 +9,31 @@
 /* Begin PBXBuildFile section */
 		15650D702CB3FD5200EC88C0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650D6F2CB3FD5200EC88C0 /* AppDelegate.swift */; };
 		15650D722CB3FD5200EC88C0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650D712CB3FD5200EC88C0 /* SceneDelegate.swift */; };
-		15650D742CB3FD5200EC88C0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650D732CB3FD5200EC88C0 /* ViewController.swift */; };
 		15650D772CB3FD5200EC88C0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15650D752CB3FD5200EC88C0 /* Main.storyboard */; };
 		15650D792CB3FD5400EC88C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15650D782CB3FD5400EC88C0 /* Assets.xcassets */; };
 		15650D7C2CB3FD5400EC88C0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15650D7A2CB3FD5400EC88C0 /* LaunchScreen.storyboard */; };
+		15650D862CB3FF0500EC88C0 /* LoadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650D852CB3FF0500EC88C0 /* LoadViewController.swift */; };
+		15650D892CB3FF7600EC88C0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650D882CB3FF7600EC88C0 /* Extensions.swift */; };
+		15650D8C2CB4002600EC88C0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 15650D8B2CB4002600EC88C0 /* SnapKit */; };
+		15650D902CB4037400EC88C0 /* OnbUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650D8F2CB4037400EC88C0 /* OnbUserViewController.swift */; };
+		15650D932CB4061200EC88C0 /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 15650D922CB4061200EC88C0 /* CombineCocoa */; };
+		15650D962CB409F900EC88C0 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650D952CB409F900EC88C0 /* HomeViewController.swift */; };
+		15650D992CB42CAD00EC88C0 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650D982CB42CAD00EC88C0 /* TabBarViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		15650D6C2CB3FD5200EC88C0 /* 1031_bookOfBet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 1031_bookOfBet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15650D6F2CB3FD5200EC88C0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		15650D712CB3FD5200EC88C0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		15650D732CB3FD5200EC88C0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		15650D762CB3FD5200EC88C0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		15650D782CB3FD5400EC88C0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		15650D7B2CB3FD5400EC88C0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		15650D7D2CB3FD5400EC88C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		15650D852CB3FF0500EC88C0 /* LoadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadViewController.swift; sourceTree = "<group>"; };
+		15650D882CB3FF7600EC88C0 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		15650D8F2CB4037400EC88C0 /* OnbUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnbUserViewController.swift; sourceTree = "<group>"; };
+		15650D952CB409F900EC88C0 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		15650D982CB42CAD00EC88C0 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +41,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15650D932CB4061200EC88C0 /* CombineCocoa in Frameworks */,
+				15650D8C2CB4002600EC88C0 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,15 +68,67 @@
 		15650D6E2CB3FD5200EC88C0 /* 1031_bookOfBet */ = {
 			isa = PBXGroup;
 			children = (
-				15650D6F2CB3FD5200EC88C0 /* AppDelegate.swift */,
-				15650D712CB3FD5200EC88C0 /* SceneDelegate.swift */,
-				15650D732CB3FD5200EC88C0 /* ViewController.swift */,
-				15650D752CB3FD5200EC88C0 /* Main.storyboard */,
-				15650D782CB3FD5400EC88C0 /* Assets.xcassets */,
-				15650D7A2CB3FD5400EC88C0 /* LaunchScreen.storyboard */,
+				15650D972CB42C8700EC88C0 /* TabBar */,
+				15650D942CB409E900EC88C0 /* HomePage */,
+				15650D872CB3FF6800EC88C0 /* Ext */,
+				15650D842CB3FDEC00EC88C0 /* LoadPage */,
+				15650D832CB3FDDF00EC88C0 /* Support */,
 				15650D7D2CB3FD5400EC88C0 /* Info.plist */,
 			);
 			path = 1031_bookOfBet;
+			sourceTree = "<group>";
+		};
+		15650D832CB3FDDF00EC88C0 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				15650D712CB3FD5200EC88C0 /* SceneDelegate.swift */,
+				15650D752CB3FD5200EC88C0 /* Main.storyboard */,
+				15650D7A2CB3FD5400EC88C0 /* LaunchScreen.storyboard */,
+				15650D782CB3FD5400EC88C0 /* Assets.xcassets */,
+				15650D6F2CB3FD5200EC88C0 /* AppDelegate.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		15650D842CB3FDEC00EC88C0 /* LoadPage */ = {
+			isa = PBXGroup;
+			children = (
+				15650D8E2CB4035C00EC88C0 /* OnbUser */,
+				15650D852CB3FF0500EC88C0 /* LoadViewController.swift */,
+			);
+			path = LoadPage;
+			sourceTree = "<group>";
+		};
+		15650D872CB3FF6800EC88C0 /* Ext */ = {
+			isa = PBXGroup;
+			children = (
+				15650D882CB3FF7600EC88C0 /* Extensions.swift */,
+			);
+			path = Ext;
+			sourceTree = "<group>";
+		};
+		15650D8E2CB4035C00EC88C0 /* OnbUser */ = {
+			isa = PBXGroup;
+			children = (
+				15650D8F2CB4037400EC88C0 /* OnbUserViewController.swift */,
+			);
+			path = OnbUser;
+			sourceTree = "<group>";
+		};
+		15650D942CB409E900EC88C0 /* HomePage */ = {
+			isa = PBXGroup;
+			children = (
+				15650D952CB409F900EC88C0 /* HomeViewController.swift */,
+			);
+			path = HomePage;
+			sourceTree = "<group>";
+		};
+		15650D972CB42C8700EC88C0 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				15650D982CB42CAD00EC88C0 /* TabBarViewController.swift */,
+			);
+			path = TabBar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +147,10 @@
 			dependencies = (
 			);
 			name = 1031_bookOfBet;
+			packageProductDependencies = (
+				15650D8B2CB4002600EC88C0 /* SnapKit */,
+				15650D922CB4061200EC88C0 /* CombineCocoa */,
+			);
 			productName = 1031_bookOfBet;
 			productReference = 15650D6C2CB3FD5200EC88C0 /* 1031_bookOfBet.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +179,10 @@
 				Base,
 			);
 			mainGroup = 15650D632CB3FD5200EC88C0;
+			packageReferences = (
+				15650D8A2CB4002600EC88C0 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				15650D912CB4061200EC88C0 /* XCRemoteSwiftPackageReference "CombineCocoa" */,
+			);
 			productRefGroup = 15650D6D2CB3FD5200EC88C0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -138,9 +210,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				15650D742CB3FD5200EC88C0 /* ViewController.swift in Sources */,
+				15650D862CB3FF0500EC88C0 /* LoadViewController.swift in Sources */,
+				15650D902CB4037400EC88C0 /* OnbUserViewController.swift in Sources */,
 				15650D702CB3FD5200EC88C0 /* AppDelegate.swift in Sources */,
 				15650D722CB3FD5200EC88C0 /* SceneDelegate.swift in Sources */,
+				15650D992CB42CAD00EC88C0 /* TabBarViewController.swift in Sources */,
+				15650D892CB3FF7600EC88C0 /* Extensions.swift in Sources */,
+				15650D962CB409F900EC88C0 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,11 +370,13 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = 1031_bookOfBet/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Book of bet";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -306,6 +384,9 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "k.-031-bookOfBet";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -321,11 +402,13 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = 1031_bookOfBet/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Book of bet";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -333,6 +416,9 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "k.-031-bookOfBet";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -361,6 +447,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		15650D8A2CB4002600EC88C0 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		15650D912CB4061200EC88C0 /* XCRemoteSwiftPackageReference "CombineCocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CombineCommunity/CombineCocoa";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		15650D8B2CB4002600EC88C0 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 15650D8A2CB4002600EC88C0 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		15650D922CB4061200EC88C0 /* CombineCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 15650D912CB4061200EC88C0 /* XCRemoteSwiftPackageReference "CombineCocoa" */;
+			productName = CombineCocoa;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 15650D642CB3FD5200EC88C0 /* Project object */;
 }
