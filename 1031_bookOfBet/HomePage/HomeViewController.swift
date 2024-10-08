@@ -41,10 +41,11 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate , UI
     //collection
     private var collection: UICollectionView?
     private lazy var nilArrView = UIView()
+    private lazy var mainArr = eventsArr
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationItem.title = "Home"
+        navigationItem.title = " "
         self.navigationItem.largeTitleDisplayMode = .always
         if let navigationBar = self.navigationController?.navigationBar {
             navigationBar.prefersLargeTitles = true
@@ -52,6 +53,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate , UI
                 .foregroundColor: UIColor.white
             ]
         }
+        showNavigationBar()
     }
     
     private func subscribe() {
@@ -83,6 +85,16 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate , UI
 
     
     private func setupUI() {
+        
+        let homeLabel = UILabel()
+        homeLabel.text = "Home"
+        homeLabel.textColor = .white
+        homeLabel.font = .systemFont(ofSize: 34, weight: .bold)
+        view.addSubview(homeLabel)
+        homeLabel.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(15)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.top).offset(-5)
+        }
         
         let topView = UIView()
         topView.backgroundColor = .white.withAlphaComponent(0.05)
@@ -131,20 +143,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate , UI
             }
             .store(in: &cancellable)
         
-        view.addSubview(editProfileView)
-        editProfileView.snp.makeConstraints { make in
-            make.left.right.equalToSuperview().inset(15)
-            make.height.equalTo(403)
-            make.center.equalToSuperview()
-        }
-        editProfileView.alpha = 0
-        let openChangeImageGesture = UITapGestureRecognizer(target: self, action: nil)
-        editProfileView.imageView.addGestureRecognizer(openChangeImageGesture)
-        openChangeImageGesture.tapPublisher
-            .sink { _ in
-                self.setImage()
-            }
-            .store(in: &cancellable)
+     
         
         let hideKBGesture = UITapGestureRecognizer(target: self, action: nil)
         view.addGestureRecognizer(hideKBGesture)
@@ -283,13 +282,32 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate , UI
             make.height.equalTo(102)
             make.top.equalTo(bidsLabel.snp.bottom).inset(-10)
         }
+        
+        view.addSubview(editProfileView)
+        editProfileView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(15)
+            make.height.equalTo(403)
+            make.center.equalToSuperview()
+        }
+        editProfileView.alpha = 0
+        let openChangeImageGesture = UITapGestureRecognizer(target: self, action: nil)
+        editProfileView.imageView.addGestureRecognizer(openChangeImageGesture)
+        openChangeImageGesture.tapPublisher
+            .sink { _ in
+                self.setImage()
+            }
+            .store(in: &cancellable)
     }
+    
+    //СДЕЛАТЬ ЭКРАН ДОБАВЛЕНИЯ НОВОГО ЕВЕНТА И ИХ ПРОСМОТР РЕДАКТИРОВАНИ 
     
     private func checkBalance() -> String{
         var balance = 0.00
-        for i in bidsArr {
-            if i.rezult == true {
-                balance += Double(i.stavka) ?? 0.00
+        for i in eventsArr {
+            for item in i.bids {
+                if item.rezult == true {
+                    balance += Double(item.stavka) ?? 0.00
+                }
             }
         }
         return "\(balance)"
@@ -297,16 +315,23 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate , UI
     
     private func checkWinCount() -> String {
         var wins = 0
-        for i in bidsArr {
-            if i.rezult == true {
-                wins += 1
+        for i in eventsArr {
+            for item in i.bids {
+                if item.rezult == true {
+                    wins += 1
+                }
             }
         }
         return "\(wins)"
     }
     
     private func checkArr() {
-        if bidsArr.count > 0 {
+        
+        mainArr = eventsArr.filter({$0.bids.count > 0})
+        
+        
+        
+        if mainArr.count > 0 {
             nilArrView.alpha = 0
             collection?.alpha = 100
         } else {
@@ -368,7 +393,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate , UI
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return bidsArr.count
+        return mainArr.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

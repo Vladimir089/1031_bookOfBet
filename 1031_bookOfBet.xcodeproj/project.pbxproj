@@ -23,6 +23,11 @@
 		15650D9E2CB47B9F00EC88C0 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650D9D2CB47B9F00EC88C0 /* ProfileModel.swift */; };
 		15650DA02CB47CF900EC88C0 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650D9F2CB47CF900EC88C0 /* EditProfileView.swift */; };
 		15650DA32CB488D700EC88C0 /* GlobalModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650DA22CB488D700EC88C0 /* GlobalModels.swift */; };
+		15650DA62CB5403800EC88C0 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650DA52CB5403800EC88C0 /* EventsViewController.swift */; };
+		15650DA82CB55F3C00EC88C0 /* AddNewEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650DA72CB55F3C00EC88C0 /* AddNewEventViewController.swift */; };
+		15650DAB2CB56DAF00EC88C0 /* StaticFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650DAA2CB56DAF00EC88C0 /* StaticFunc.swift */; };
+		15650DAD2CB58B9100EC88C0 /* DetailEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650DAC2CB58B9100EC88C0 /* DetailEventViewController.swift */; };
+		15650DAF2CB5AF1700EC88C0 /* NewNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650DAE2CB5AF1700EC88C0 /* NewNoteView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +47,11 @@
 		15650D9D2CB47B9F00EC88C0 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		15650D9F2CB47CF900EC88C0 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		15650DA22CB488D700EC88C0 /* GlobalModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalModels.swift; sourceTree = "<group>"; };
+		15650DA52CB5403800EC88C0 /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
+		15650DA72CB55F3C00EC88C0 /* AddNewEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewEventViewController.swift; sourceTree = "<group>"; };
+		15650DAA2CB56DAF00EC88C0 /* StaticFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticFunc.swift; sourceTree = "<group>"; };
+		15650DAC2CB58B9100EC88C0 /* DetailEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailEventViewController.swift; sourceTree = "<group>"; };
+		15650DAE2CB5AF1700EC88C0 /* NewNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNoteView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +86,8 @@
 		15650D6E2CB3FD5200EC88C0 /* 1031_bookOfBet */ = {
 			isa = PBXGroup;
 			children = (
+				15650DA92CB56D9B00EC88C0 /* StaticComponents */,
+				15650DA42CB5402400EC88C0 /* Events */,
 				15650DA12CB488C800EC88C0 /* GlobalModel */,
 				15650D9A2CB477E600EC88C0 /* LoadFile */,
 				15650D972CB42C8700EC88C0 /* TabBar */,
@@ -157,6 +169,25 @@
 				15650DA22CB488D700EC88C0 /* GlobalModels.swift */,
 			);
 			path = GlobalModel;
+			sourceTree = "<group>";
+		};
+		15650DA42CB5402400EC88C0 /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				15650DA52CB5403800EC88C0 /* EventsViewController.swift */,
+				15650DA72CB55F3C00EC88C0 /* AddNewEventViewController.swift */,
+				15650DAC2CB58B9100EC88C0 /* DetailEventViewController.swift */,
+				15650DAE2CB5AF1700EC88C0 /* NewNoteView.swift */,
+			);
+			path = Events;
+			sourceTree = "<group>";
+		};
+		15650DA92CB56D9B00EC88C0 /* StaticComponents */ = {
+			isa = PBXGroup;
+			children = (
+				15650DAA2CB56DAF00EC88C0 /* StaticFunc.swift */,
+			);
+			path = StaticComponents;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -243,11 +274,16 @@
 				15650D862CB3FF0500EC88C0 /* LoadViewController.swift in Sources */,
 				15650DA32CB488D700EC88C0 /* GlobalModels.swift in Sources */,
 				15650D9C2CB477F400EC88C0 /* LoadStorage.swift in Sources */,
+				15650DA62CB5403800EC88C0 /* EventsViewController.swift in Sources */,
+				15650DAD2CB58B9100EC88C0 /* DetailEventViewController.swift in Sources */,
+				15650DAF2CB5AF1700EC88C0 /* NewNoteView.swift in Sources */,
 				15650D902CB4037400EC88C0 /* OnbUserViewController.swift in Sources */,
 				15650D702CB3FD5200EC88C0 /* AppDelegate.swift in Sources */,
 				15650D722CB3FD5200EC88C0 /* SceneDelegate.swift in Sources */,
 				15650D992CB42CAD00EC88C0 /* TabBarViewController.swift in Sources */,
 				15650D892CB3FF7600EC88C0 /* Extensions.swift in Sources */,
+				15650DAB2CB56DAF00EC88C0 /* StaticFunc.swift in Sources */,
+				15650DA82CB55F3C00EC88C0 /* AddNewEventViewController.swift in Sources */,
 				15650D962CB409F900EC88C0 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

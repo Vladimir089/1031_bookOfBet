@@ -3,7 +3,7 @@ import SnapKit
 import Combine
 
 var globalPublisher = PassthroughSubject<Any, Never>()
-var bidsArr: [Bids] = []
+
 var eventsArr: [Event] = []
 
 class TabBarViewController: UITabBarController {
@@ -17,11 +17,13 @@ class TabBarViewController: UITabBarController {
     override func viewDidLoad() {
         UserDefaults.standard.set("w", forKey: "tab")
         super.viewDidLoad()
-        bidsArr = loadBidsArrFromFile() ?? []
         eventsArr = loadEventsArrFromFile() ?? []
         generateControllers()
         setView()
         buttonTapped(sender: buttons[0])
+        let backButton = UIBarButtonItem()
+        backButton.title = ""
+        navigationItem.backBarButtonItem = backButton
     }
 
 
@@ -66,12 +68,12 @@ class TabBarViewController: UITabBarController {
     }
 
     private func generateControllers() {
-        let home = generateViewControllers(image: UIImage.homeTab.resize(targetSize: CGSize(width: 24, height: 24)), vc: UINavigationController(rootViewController: HomeViewController()))
+        let home = generateViewControllers(image: UIImage.homeTab.resize(targetSize: CGSize(width: 24, height: 24)), vc: HomeViewController())
         
-        let profile = generateViewControllers(image: UIImage.eventsTab.resize(targetSize: CGSize(width: 24, height: 24)), vc: HomeViewController())
+        let eventVC = generateViewControllers(image: UIImage.eventsTab.resize(targetSize: CGSize(width: 24, height: 24)), vc: EventsViewController())
 //        let setting = generateViewControllers(image: UIImage.tab3, vc: OldExcurseViewController())
 //        let bookmark = generateViewControllers(image: UIImage.tab4, vc: SettingsViewController())
-        viewControllers = [home, profile]
+        viewControllers = [home, eventVC]
     }
 
     private func generateViewControllers(image: UIImage, vc: UIViewController) -> UIViewController {
@@ -99,23 +101,6 @@ class TabBarViewController: UITabBarController {
             self.buttons[sender.tag].tintColor = .white
             self.buttons[sender.tag].backgroundColor = UIColor(red: 175/255, green: 218/255, blue: 18/255, alpha: 1)
             self.tabbarView.layoutIfNeeded()
-        }
-    }
-    
-    func loadBidsArrFromFile() -> [Bids]? {
-        let fileManager = FileManager.default
-        guard let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            print("Unable to get document directory")
-            return nil
-        }
-        let filePath = documentDirectory.appendingPathComponent("bids.plist")
-        do {
-            let data = try Data(contentsOf: filePath)
-            let athleteArr = try JSONDecoder().decode([Bids].self, from: data)
-            return athleteArr
-        } catch {
-            print("Failed to load or decode athleteArr: \(error)")
-            return nil
         }
     }
     
