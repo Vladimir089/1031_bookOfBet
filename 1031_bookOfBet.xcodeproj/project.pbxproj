@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		15599FE02CB6C55500D17382 /* EditNewBidsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15599FDF2CB6C55500D17382 /* EditNewBidsViewController.swift */; };
 		15650D702CB3FD5200EC88C0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650D6F2CB3FD5200EC88C0 /* AppDelegate.swift */; };
 		15650D722CB3FD5200EC88C0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650D712CB3FD5200EC88C0 /* SceneDelegate.swift */; };
 		15650D772CB3FD5200EC88C0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15650D752CB3FD5200EC88C0 /* Main.storyboard */; };
@@ -28,9 +29,11 @@
 		15650DAB2CB56DAF00EC88C0 /* StaticFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650DAA2CB56DAF00EC88C0 /* StaticFunc.swift */; };
 		15650DAD2CB58B9100EC88C0 /* DetailEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650DAC2CB58B9100EC88C0 /* DetailEventViewController.swift */; };
 		15650DAF2CB5AF1700EC88C0 /* NewNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650DAE2CB5AF1700EC88C0 /* NewNoteView.swift */; };
+		15650DB42CB6A0C300EC88C0 /* AddNewBidsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15650DB32CB6A0C300EC88C0 /* AddNewBidsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		15599FDF2CB6C55500D17382 /* EditNewBidsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNewBidsViewController.swift; sourceTree = "<group>"; };
 		15650D6C2CB3FD5200EC88C0 /* 1031_bookOfBet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 1031_bookOfBet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15650D6F2CB3FD5200EC88C0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		15650D712CB3FD5200EC88C0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -52,6 +55,7 @@
 		15650DAA2CB56DAF00EC88C0 /* StaticFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticFunc.swift; sourceTree = "<group>"; };
 		15650DAC2CB58B9100EC88C0 /* DetailEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailEventViewController.swift; sourceTree = "<group>"; };
 		15650DAE2CB5AF1700EC88C0 /* NewNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNoteView.swift; sourceTree = "<group>"; };
+		15650DB32CB6A0C300EC88C0 /* AddNewBidsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewBidsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +90,7 @@
 		15650D6E2CB3FD5200EC88C0 /* 1031_bookOfBet */ = {
 			isa = PBXGroup;
 			children = (
+				15650DB02CB69FD500EC88C0 /* Bids */,
 				15650DA92CB56D9B00EC88C0 /* StaticComponents */,
 				15650DA42CB5402400EC88C0 /* Events */,
 				15650DA12CB488C800EC88C0 /* GlobalModel */,
@@ -190,6 +195,15 @@
 			path = StaticComponents;
 			sourceTree = "<group>";
 		};
+		15650DB02CB69FD500EC88C0 /* Bids */ = {
+			isa = PBXGroup;
+			children = (
+				15650DB32CB6A0C300EC88C0 /* AddNewBidsViewController.swift */,
+				15599FDF2CB6C55500D17382 /* EditNewBidsViewController.swift */,
+			);
+			path = Bids;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -272,9 +286,11 @@
 				15650DA02CB47CF900EC88C0 /* EditProfileView.swift in Sources */,
 				15650D9E2CB47B9F00EC88C0 /* ProfileModel.swift in Sources */,
 				15650D862CB3FF0500EC88C0 /* LoadViewController.swift in Sources */,
+				15650DB42CB6A0C300EC88C0 /* AddNewBidsViewController.swift in Sources */,
 				15650DA32CB488D700EC88C0 /* GlobalModels.swift in Sources */,
 				15650D9C2CB477F400EC88C0 /* LoadStorage.swift in Sources */,
 				15650DA62CB5403800EC88C0 /* EventsViewController.swift in Sources */,
+				15599FE02CB6C55500D17382 /* EditNewBidsViewController.swift in Sources */,
 				15650DAD2CB58B9100EC88C0 /* DetailEventViewController.swift in Sources */,
 				15650DAF2CB5AF1700EC88C0 /* NewNoteView.swift in Sources */,
 				15650D902CB4037400EC88C0 /* OnbUserViewController.swift in Sources */,

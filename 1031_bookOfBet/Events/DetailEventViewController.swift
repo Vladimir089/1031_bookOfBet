@@ -49,6 +49,16 @@ class DetailEventViewController: UIViewController {
         eventsArr[index].notes.remove(at:newNoteView.index)
         newNoteView.close()
         save()
+        
+        do {
+            let data = try JSONEncoder().encode(eventsArr) //тут мкассив конвертируем в дату
+            try saveEventArrToFile(data: data)
+           
+            globalPublisher.send(0)
+        } catch {
+            print("Failed to encode or save athleteArr: \(error)")
+        }
+        
     }
     
     @objc func saveNote() {
@@ -91,13 +101,20 @@ class DetailEventViewController: UIViewController {
         
         globalPublisher
             .sink { _ in
+                print("isLocal before: \(self.isLocal)") // Отслеживаем текущее значение
                 if self.isLocal == false {
+                    print("Calling update()")
                     self.update()
                 } else {
+                    print("Skipping update, resetting isLocal")
                     self.isLocal = false
                 }
+                print("isLocal after: \(self.isLocal)")
             }
             .store(in: &cancellable)
+
+
+
     }
     
     @objc func delEvent() {
@@ -105,26 +122,29 @@ class DetailEventViewController: UIViewController {
         cancellable.removeAll()
         eventsArr.remove(at: index)
         index = 0
-        save()
+        self.save()
+        
         self.navigationController?.popViewController(animated: true)
     }
     
     private func update() {
         if isLocal == false {
             guard index >= 0 && index < eventsArr.count else {
-                //print("Index out of range: \(index) for eventsArr of count: \(eventsArr.count)")
                 return
             }
-            
-            nameLabel.text = eventsArr[index].oneComand + " - " + eventsArr[index].secondComand
-            dateLabel.text = formatDate(date: eventsArr[index].date)
-            timeLabel.text = eventsArr[index].time
-            typeButton.setTitle(eventsArr[index].cetegor, for: .normal)
-            mainCollection?.reloadData()
-            bidsCollection?.reloadData()
-            notesCollection?.reloadData()
+            if isLocal == false {
+                nameLabel.text = eventsArr[index].oneComand + " - " + eventsArr[index].secondComand
+                dateLabel.text = formatDate(date: eventsArr[index].date)
+                timeLabel.text = eventsArr[index].time
+                typeButton.setTitle(eventsArr[index].cetegor, for: .normal)
+                notesCollection?.reloadData()
+                bidsCollection?.reloadData()
+                mainCollection?.reloadData()
+                
 
-            self.view.layoutIfNeeded()
+                self.view.layoutIfNeeded()
+            }
+           
         }
     }
     
@@ -228,7 +248,7 @@ class DetailEventViewController: UIViewController {
             collection.delegate = self
             collection.backgroundColor = .clear
             collection.dataSource = self
-            collection.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
+            collection.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 70, right: 0)
             return collection
         }()
 
@@ -285,6 +305,30 @@ class DetailEventViewController: UIViewController {
             make.left.equalTo(view.snp.centerX).offset(7.5)
         }
         editButton.addTarget(self, action: #selector(editEvent), for: .touchUpInside)
+        
+        notesCollection = {
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .vertical
+            let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+            collection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "3")
+            collection.showsVerticalScrollIndicator = false
+            collection.delegate = self
+            collection.backgroundColor = .clear
+            collection.dataSource = self
+            return collection
+        }()
+        
+        bidsCollection = {
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .vertical
+            let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+            collection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "2")
+            collection.showsVerticalScrollIndicator = false
+            collection.delegate = self
+            collection.backgroundColor = .clear
+            collection.dataSource = self
+            return collection
+        }()
     }
     
     
@@ -359,17 +403,7 @@ extension DetailEventViewController: UICollectionViewDelegate, UICollectionViewD
             }
            
             if indexPath.row == 0 {
-                bidsCollection = {
-                    let layout = UICollectionViewFlowLayout()
-                    layout.scrollDirection = .vertical
-                    let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
-                    collection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "2")
-                    collection.showsVerticalScrollIndicator = false
-                    collection.delegate = self
-                    collection.backgroundColor = .clear
-                    collection.dataSource = self
-                    return collection
-                }()
+                
                 cell.addSubview(bidsCollection!)
                 bidsCollection?.snp.makeConstraints({ make in
                     make.left.right.equalToSuperview()
@@ -377,17 +411,7 @@ extension DetailEventViewController: UICollectionViewDelegate, UICollectionViewD
                     make.top.equalTo(bidsLabel.snp.bottom).inset(-10)
                 })
             } else {
-                notesCollection = {
-                    let layout = UICollectionViewFlowLayout()
-                    layout.scrollDirection = .vertical
-                    let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
-                    collection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "3")
-                    collection.showsVerticalScrollIndicator = false
-                    collection.delegate = self
-                    collection.backgroundColor = .clear
-                    collection.dataSource = self
-                    return collection
-                }()
+               
                 cell.addSubview(notesCollection!)
                 notesCollection?.snp.makeConstraints({ make in
                     make.left.right.equalToSuperview()
@@ -552,7 +576,7 @@ extension DetailEventViewController: UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == mainCollection {
             if indexPath.row == 0 {
-                return CGSize(width: collectionView.bounds.width, height: eventsArr[index].bids.count > 0 ? CGFloat((eventsArr[index].bids.count * 109 + 50)) : 155)
+                return CGSize(width: collectionView.bounds.width, height: eventsArr[index].bids.count > 0 ? CGFloat((eventsArr[index].bids.count * 120 + 50)) : 155)
             } else {
                 return CGSize(width: collectionView.bounds.width, height: eventsArr[index].notes.count > 0 ? CGFloat((eventsArr[index].notes.count * 120 + 50)) : 155)
             }

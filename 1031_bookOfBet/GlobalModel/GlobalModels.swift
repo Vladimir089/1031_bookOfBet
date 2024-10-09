@@ -10,16 +10,14 @@ import Foundation
 struct Bids: Codable, Identifiable {
     let id: UUID
     var cofficent: String
-    var nameMatch: String
     var nameStavka: String
     var stavka: String
     var rezult: Bool
     var isCompleted: Bool
     
-    init(cofficent: String, nameMatch: String, nameStavka: String, stavka: String, rezult: Bool, isCompleted: Bool) {
+    init(cofficent: String, nameStavka: String, stavka: String, rezult: Bool, isCompleted: Bool) {
         self.id = UUID()
         self.cofficent = cofficent
-        self.nameMatch = nameMatch
         self.nameStavka = nameStavka
         self.stavka = stavka
         self.rezult = rezult

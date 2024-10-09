@@ -169,6 +169,12 @@ class EventsViewController: UIViewController {
             make.left.equalTo(view.snp.centerX).offset(5)
             make.top.equalTo(dateCollection!.snp.bottom).inset(-10)
         }
+        addBidButton.tapPublisher
+            .sink { _ in
+                self.present(UINavigationController(rootViewController: AddNewBidsViewController()), animated: true)
+               
+            }
+            .store(in: &cancellable)
         
         nilArrView = {
             let view = UIView()

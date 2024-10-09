@@ -41,7 +41,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate , UI
     //collection
     private var collection: UICollectionView?
     private lazy var nilArrView = UIView()
-    private lazy var mainArr = eventsArr
+    private lazy var mainArr = [(Event, Bids)]()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -62,7 +62,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate , UI
                 self.countWinLabel.text = self.checkWinCount()
                 self.balanceLabel.text = "$" + self.checkBalance()
                 self.checkArr()
-                self.collection?.reloadData()
+                print("save home")
             }
             .store(in: &cancellable)
     }
@@ -73,6 +73,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate , UI
         setupUI()
         checkProfile()
         checkArr()
+        subscribe()
     }
     
     private func checkProfile() {
@@ -233,6 +234,8 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate , UI
             collection.backgroundColor = .clear
             collection.delegate = self
             collection.dataSource = self
+            collection.showsVerticalScrollIndicator = false
+            collection.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 60, right: 0)
             return collection
         }()
         view.addSubview(collection!)
@@ -301,17 +304,20 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate , UI
     
     //СДЕЛАТЬ ЭКРАН ДОБАВЛЕНИЯ НОВОГО ЕВЕНТА И ИХ ПРОСМОТР РЕДАКТИРОВАНИ 
     
-    private func checkBalance() -> String{
+    private func checkBalance() -> String {
         var balance = 0.00
         for i in eventsArr {
             for item in i.bids {
                 if item.rezult == true {
-                    balance += Double(item.stavka) ?? 0.00
+                    let coeff: Double = Double(item.cofficent) ?? 1
+                    let stavka: Double = Double(item.stavka) ?? 1
+                    balance += stavka * coeff
                 }
             }
         }
-        return "\(balance)"
+        return String(format: "%.2f", balance)
     }
+
     
     private func checkWinCount() -> String {
         var wins = 0
@@ -327,7 +333,17 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate , UI
     
     private func checkArr() {
         
-        mainArr = eventsArr.filter({$0.bids.count > 0})
+        mainArr.removeAll()
+        
+        for i in eventsArr {
+            if i.bids.count > 0 {
+                for bid in i.bids {
+                    if bid.rezult == true && bid.isCompleted == true {
+                        mainArr.append((i, bid))
+                    }
+                }
+            }
+        }
         
         
         
@@ -338,6 +354,8 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate , UI
             nilArrView.alpha = 100
             collection?.alpha = 0
         }
+        
+        self.collection?.reloadData()
     }
   
     
