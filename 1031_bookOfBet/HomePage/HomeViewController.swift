@@ -42,6 +42,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate , UI
     private var collection: UICollectionView?
     private lazy var nilArrView = UIView()
     private lazy var mainArr = [(Event, Bids)]()
+    private lazy var openAllBidsButton = UIButton(type: .system)
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -53,6 +54,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate , UI
                 .foregroundColor: UIColor.white
             ]
         }
+      
         showNavigationBar()
     }
     
@@ -70,6 +72,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate , UI
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(red: 12/255, green: 19/255, blue: 53/255, alpha: 1)
+       
         setupUI()
         checkProfile()
         checkArr()
@@ -226,6 +229,19 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate , UI
             make.top.equalTo(balanceView.snp.bottom).inset(-15)
         }
         
+        openAllBidsButton.setBackgroundImage(.openBids, for: .normal)
+        view.addSubview(openAllBidsButton)
+        openAllBidsButton.snp.makeConstraints { make in
+            make.height.width.equalTo(17)
+            make.right.equalToSuperview().inset(15)
+            make.centerY.equalTo(bidsLabel)
+        }
+        openAllBidsButton.tapPublisher
+            .sink { _ in
+                self.navigationController?.pushViewController(BidsAllViewController(), animated: true)
+            }
+            .store(in: &cancellable)
+        
         collection = {
             let layout = UICollectionViewFlowLayout()
             let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -338,9 +354,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate , UI
         for i in eventsArr {
             if i.bids.count > 0 {
                 for bid in i.bids {
-                    if bid.rezult == true && bid.isCompleted == true {
-                        mainArr.append((i, bid))
-                    }
+                    mainArr.append((i, bid))
                 }
             }
         }
@@ -350,9 +364,11 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate , UI
         if mainArr.count > 0 {
             nilArrView.alpha = 0
             collection?.alpha = 100
+            openAllBidsButton.alpha = 100
         } else {
             nilArrView.alpha = 100
             collection?.alpha = 0
+            openAllBidsButton.alpha = 0
         }
         
         self.collection?.reloadData()
@@ -418,7 +434,110 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "1", for: indexPath)
         cell.subviews.forEach { $0.removeFromSuperview() }
         cell.layer.cornerRadius = 20
-        cell.backgroundColor = .orange
+        cell.backgroundColor = .white.withAlphaComponent(0.05)
+        
+        let coeffView = UIView()
+        coeffView.backgroundColor = .white.withAlphaComponent(0.05)
+        coeffView.layer.cornerRadius = 12
+        cell.addSubview(coeffView)
+        coeffView.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(15)
+            make.height.equalTo(77)
+            make.width.equalTo(92)
+            make.centerY.equalToSuperview()
+        }
+        
+        let coeffLabel = UILabel()
+        coeffLabel.text = mainArr[indexPath.row].1.cofficent
+        coeffLabel.textColor = UIColor(red: 175/255, green: 218/255, blue: 18/255, alpha: 1)
+        coeffLabel.textAlignment = .center
+        coeffLabel.font = .systemFont(ofSize: 20, weight: .semibold)
+        coeffView.addSubview(coeffLabel)
+        coeffLabel.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(15)
+            make.centerY.equalToSuperview().offset(-5)
+        }
+        
+        let typeGameLabel = UILabel()
+        typeGameLabel.text = mainArr[indexPath.row].0.cetegor
+        typeGameLabel.textAlignment = .center
+        typeGameLabel.textColor = .white
+        typeGameLabel.font = .systemFont(ofSize: 11, weight: .regular)
+        coeffView.addSubview(typeGameLabel)
+        typeGameLabel.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(5)
+            make.top.equalTo(coeffLabel.snp.bottom).inset(-3)
+        }
+        
+        let nameBetLabel = UILabel()
+        nameBetLabel.text = mainArr[indexPath.row].0.oneComand + " - " + mainArr[indexPath.row].0.secondComand
+        nameBetLabel.textAlignment = .left
+        nameBetLabel.textColor = .white
+        nameBetLabel.font = .systemFont(ofSize: 17, weight: .semibold)
+        cell.addSubview(nameBetLabel)
+        nameBetLabel.snp.makeConstraints { make in
+            make.left.equalTo(coeffView.snp.right).inset(-10)
+            make.top.equalTo(coeffView.snp.top).inset(3)
+            make.right.equalToSuperview().inset(15)
+        }
+        
+        let nameBidLabel = UILabel()
+        nameBidLabel.text = mainArr[indexPath.row].1.nameStavka
+        nameBidLabel.textAlignment = .left
+        nameBidLabel.textColor = UIColor(red: 175/255, green: 218/255, blue: 18/255, alpha: 1)
+        nameBidLabel.font = .systemFont(ofSize: 13, weight: .semibold)
+        cell.addSubview(nameBidLabel)
+        nameBidLabel.snp.makeConstraints { make in
+            make.left.equalTo(coeffView.snp.right).inset(-10)
+            make.top.equalTo(nameBetLabel.snp.bottom).inset(-2)
+            make.right.equalToSuperview().inset(15)
+        }
+        
+        let betTextLabel = StaticFunc.createLabel(text: "Bet")
+        cell.addSubview(betTextLabel)
+        betTextLabel.snp.makeConstraints { make in
+            make.left.equalTo(coeffView.snp.right).inset(-10)
+            make.top.equalTo(nameBidLabel.snp.bottom).inset(-2)
+        }
+        
+        let betLabel = UILabel()
+        betLabel.text = "$ " + mainArr[indexPath.row].1.stavka
+        betLabel.textColor = .white
+        betLabel.font = .systemFont(ofSize: 12, weight: .semibold)
+        betLabel.textAlignment = .left
+        //betLabel.backgroundColor = .red
+        cell.addSubview(betLabel)
+        betLabel.snp.makeConstraints { make in
+            make.top.equalTo(betTextLabel.snp.bottom).inset(-2)
+            make.left.equalTo(coeffView.snp.right).inset(-10)
+            make.right.equalTo(cell.snp.centerX).offset(30)
+        }
+        
+        let resultLabel = StaticFunc.createLabel(text: "Result")
+        cell.addSubview(resultLabel)
+        resultLabel.snp.makeConstraints { make in
+            make.top.equalTo(nameBidLabel.snp.bottom).inset(-2)
+            make.left.equalTo(cell.snp.centerX).offset(35)
+        }
+        
+        let resultBetLabel = UILabel()
+        resultBetLabel.textAlignment = .left
+        resultBetLabel.textColor = .white
+        resultBetLabel.font = .systemFont(ofSize: 12, weight: .semibold)
+        
+        let betDouble: Double = Double(mainArr[indexPath.row].1.stavka) ?? 1.1
+        let coeffDouble: Double = Double(mainArr[indexPath.row].1.cofficent) ?? 1.1
+        
+        let balance = betDouble * coeffDouble
+        
+        resultBetLabel.text = "$ " + String(format: "%.2f", balance)
+        cell.addSubview(resultBetLabel)
+        resultBetLabel.snp.makeConstraints { make in
+            make.left.equalTo(resultLabel)
+            make.top.equalTo(resultLabel.snp.bottom).inset(-2)
+            make.right.equalToSuperview().inset(15)
+        }
+        
         return cell
     }
     

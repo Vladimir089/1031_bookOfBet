@@ -23,6 +23,7 @@ class EditNewBidsViewController: UIViewController {
     private lazy var stageLabel = StaticFunc.createLabel(text: "The stage of execut")
     private lazy var selectTypeButton = UIButton(type: .system)
     private lazy var saveButton = UIButton(type: .system)
+    private lazy var delButton = UIButton(type: .system)
     
     //data
     private lazy var segmentedControl = UISegmentedControl(items: ["Active", "Completed"])
@@ -247,6 +248,34 @@ class EditNewBidsViewController: UIViewController {
                 self.saveItem()
             }
             .store(in: &cancellable)
+        
+        delButton.setBackgroundImage(.delBid, for: .normal)
+        delButton.alpha = isNew ? 0 : 100
+        view.addSubview(delButton)
+        delButton.snp.makeConstraints { make in
+            make.height.equalTo(24)
+            make.width.equalTo(82)
+            make.centerX.equalToSuperview()
+            make.top.equalTo(mainView.snp.bottom).inset(-15)
+        }
+        delButton.tapPublisher
+            .sink { _ in
+                self.delItem()
+            }
+            .store(in: &cancellable)
+    }
+    
+    private func delItem() {
+        eventsArr[indexEvent].bids.remove(at:indexBids)
+        do {
+            let data = try JSONEncoder().encode(eventsArr)
+            try saveEventsArrToFile(data: data)
+            globalPublisher.send(0)
+            self.dismiss(animated: true)
+        } catch {
+            print("Failed to encode or save athleteArr: \(error)")
+        }
+        
     }
     
     private func saveItem() {
@@ -388,3 +417,6 @@ extension EditNewBidsViewController: UITextFieldDelegate {
         return true
     }
 }
+
+
+

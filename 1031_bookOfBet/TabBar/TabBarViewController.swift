@@ -71,9 +71,8 @@ class TabBarViewController: UITabBarController {
         let home = generateViewControllers(image: UIImage.homeTab.resize(targetSize: CGSize(width: 24, height: 24)), vc: HomeViewController())
         
         let eventVC = generateViewControllers(image: UIImage.eventsTab.resize(targetSize: CGSize(width: 24, height: 24)), vc: EventsViewController())
-//        let setting = generateViewControllers(image: UIImage.tab3, vc: OldExcurseViewController())
-//        let bookmark = generateViewControllers(image: UIImage.tab4, vc: SettingsViewController())
-        viewControllers = [home, eventVC]
+        let setting = generateViewControllers(image: UIImage.settingsTab, vc: SettingsViewController())
+        viewControllers = [home, eventVC, setting]
     }
 
     private func generateViewControllers(image: UIImage, vc: UIViewController) -> UIViewController {

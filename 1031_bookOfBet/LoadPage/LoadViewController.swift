@@ -45,7 +45,7 @@ class LoadViewController: UIViewController {
     }
     
     private func setupTimer() {
-        timer = .scheduledTimer(withTimeInterval: 0, repeats: false, block: { _ in //7
+        timer = .scheduledTimer(withTimeInterval: 7, repeats: false, block: { _ in //7
             if isBet == false {
                 if UserDefaults.standard.object(forKey: "tab") != nil {
                     self.navigationController?.setViewControllers([TabBarViewController()], animated: true)
